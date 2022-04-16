@@ -8,12 +8,11 @@ local RioHelper = LibStub("AceAddon-3.0"):GetAddon("RioHelper")
 local DungeonAbbreviations = RioHelper.Data.DungeonAbbreviations
 local WeeklyAffixAbbreviations = RioHelper.Data.WeeklyAffixAbbreviations
 
-local RiohFunctions = RioHelper.Functions
+local Functions = RioHelper.Functions
 local coerce = RioHelper.Functions.coerce
 
-
 function RioHelper:OnInitialize()
-    print("RIO Helper loaded")
+    RioHelper:Print("RIO Helper loaded")
 end
 SLASH_RIO_HELPER1, SLASH_RIO_HELPER2 = '/rioh', "/rh"
 function SlashCmdList.RIO_HELPER(msg, editbox)
@@ -25,7 +24,7 @@ end
 
 function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar)
     if not dungeonAbbreviationPar or not keyLevelPar or not weeklyAffixPar then
-        RioHelper:Print("Unknown parameters for /rh: \""..msg.."\"")
+        RioHelper:Print("Unknown parameters for /rh: \"" .. msg .. "\"")
         RioHelper:Print("Usage: /rh dungeonAbbreviation keyLevel weeklyAffix")
         return
     end
@@ -41,19 +40,21 @@ function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weekly
     blizzardDungeonTotalScore = coerce(blizzardDungeonTotalScore, 0)
     local blizzardCurrentSeasonTotalScore = C_ChallengeMode.GetOverallDungeonScore()
 
-    blizzardScores[weeklyAffix] = RiohFunctions.computeScores(dungeonId, keyLevelPar, parTime)
+    blizzardScores[weeklyAffix] = Functions.computeScores(dungeonId, keyLevelPar, parTime)
     if (blizzardDungeonAffixScoreData ~= nil) then
         for _, weeklyAffixData in pairs(blizzardDungeonAffixScoreData) do
             if (weeklyAffixData.name ~= weeklyAffix) then
-                blizzardScores[weeklyAffixData.name] = RiohFunctions.computeScores(dungeonId, weeklyAffixData.level, weeklyAffixData.durationSec)
+                blizzardScores[weeklyAffixData.name] = Functions.computeScores(dungeonId, weeklyAffixData.level, weeklyAffixData.durationSec)
             end
         end
     end
-    local newSum = RiohFunctions.computeAffixScoreSum(blizzardScores.Tyrannical.score, blizzardScores.Fortified.score)
+    local newSum = Functions.computeAffixScoreSum(blizzardScores.Tyrannical.score, blizzardScores.Fortified.score)
     local bonusScore = newSum - blizzardDungeonTotalScore
-    RioHelper:Print(RiohFunctions.formatNumber(bonusScore, 1) ..
-            " from " .. blizzardDungeonTotalScore .. " to " ..
-            RiohFunctions.formatNumber(newSum, 1, true)..
-            " New total score: "..RiohFunctions.formatNumber((blizzardCurrentSeasonTotalScore + bonusScore), 1, true)
-    )
+    RioHelper:Print(string.format(
+            "%s from %s to %s - New total score: %s",
+            Functions.formatNumber(bonusScore, 1),
+            blizzardDungeonTotalScore,
+            Functions.formatNumber(newSum, 1, true),
+            Functions.formatNumber((blizzardCurrentSeasonTotalScore + bonusScore), 1, true)
+    ))
 end
