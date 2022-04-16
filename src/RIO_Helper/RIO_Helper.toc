@@ -1,0 +1,11 @@
+## Interface: 90200
+## Title: RIO Helper
+## Notes: Helps with Raider IO/Mythic Plus Score.|r|nUsage: |cffFFC700/rh dungeonAbbreviation keyLevel weeklyAffix
+## Author: Panzerbüchse-Blackrock
+## Version: 1.0.0
+## DefaultState: Enabled
+## SavedVariables: RIO_Helper
+Data.lua
+Functions.lua
+Widgets.lua
+RIO_Helper.lua
