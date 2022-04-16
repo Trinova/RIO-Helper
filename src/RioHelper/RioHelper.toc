@@ -1,11 +1,20 @@
 ## Interface: 90200
-## Title: RIO Helper
+## Title: RioHelper
 ## Notes: Helps with Raider IO/Mythic Plus Score.|r|nUsage: |cffFFC700/rh dungeonAbbreviation keyLevel weeklyAffix
 ## Author: Panzerbüchse-Blackrock
 ## Version: 1.0.0
 ## DefaultState: Enabled
-## SavedVariables: RIO_Helper
+## SavedVariables: RioHelper
+
+# Libraries
+Libs\LibStub\LibStub.lua
+Libs\AceAddon-3.0\AceAddon-3.0.xml
+Libs\AceConsole-3.0\AceConsole-3.0.xml
+embeds.xml
+
+# RioHelper
+Init.lua
 Data.lua
 Functions.lua
 Widgets.lua
-RIO_Helper.lua
+RioHelper.lua

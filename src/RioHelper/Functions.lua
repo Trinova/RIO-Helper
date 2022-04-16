@@ -3,9 +3,9 @@
 --- Created by Panzerbüchse-Blackrock.
 --- DateTime: 09-Apr-22 15:57
 ---
-local AddonName, PrivateVariables = ...;
-local DungeonBaseScores = PrivateVariables.Data.DungeonBaseScores;
-local TimerConstants = PrivateVariables.Data.TimerConstants;
+local RioHelper = LibStub("AceAddon-3.0"):GetAddon("RioHelper")
+local DungeonBaseScores = RioHelper.Data.DungeonBaseScores;
+local TimerConstants = RioHelper.Data.TimerConstants;
 
 -- General functions
 ---@param num number
@@ -128,7 +128,7 @@ local function computeScores(dungeonId, level, timeInSeconds, debug)
     }
 end
 
-PrivateVariables.Functions = {
+RioHelper.Functions = {
     round = round,
     shallowCopy = shallowCopy,
     formatNumber = formatNumber,

@@ -3,45 +3,35 @@
 --- Created by Panzerbüchse-Blackrock.
 --- DateTime: 09-Apr-22 16:10
 ---
-local AddonName, PrivateVariables = ...;
+local RioHelper = LibStub("AceAddon-3.0"):GetAddon("RioHelper")
 
-local DungeonAbbreviations = PrivateVariables.Data.DungeonAbbreviations
-local WeeklyAffixAbbreviations = PrivateVariables.Data.WeeklyAffixAbbreviations
+local DungeonAbbreviations = RioHelper.Data.DungeonAbbreviations
+local WeeklyAffixAbbreviations = RioHelper.Data.WeeklyAffixAbbreviations
 
-local RiohFunctions = PrivateVariables.Functions
-local coerce = PrivateVariables.Functions.coerce
+local RiohFunctions = RioHelper.Functions
+local coerce = RioHelper.Functions.coerce
 
-print("RIO Helper loaded")
+
+function RioHelper:OnInitialize()
+    print("RIO Helper loaded")
+end
 SLASH_RIO_HELPER1, SLASH_RIO_HELPER2 = '/rioh', "/rh"
 function SlashCmdList.RIO_HELPER(msg, editbox)
     -- pattern matching that skips leading whitespace and whitespace between cmd and args
     -- any whitespace at end of args is retained
     local foo, bar, dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar = string.find(msg, "(%w+)%s+(%d+)%s+(%w+)")
+    RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar)
+end
+
+function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar)
     if not dungeonAbbreviationPar or not keyLevelPar or not weeklyAffixPar then
-        print("Unknown parameters for /rh: \""..msg.."\"")
-        print("Usage: /rh dungeonAbbreviation keyLevel weeklyAffix")
+        RioHelper:Print("Unknown parameters for /rh: \""..msg.."\"")
+        RioHelper:Print("Usage: /rh dungeonAbbreviation keyLevel weeklyAffix")
         return
     end
-    --print("=====================")
-    --print("'" .. msg .. "'")
-    --print(foo)
-    --print(bar)
-    --print("dungeonAbbreviationPar: " .. dungeonAbbreviationPar)
-    --print("keyLevelPar: " .. keyLevelPar)
-    --print("weeklyAffixPar: " .. weeklyAffixPar)
 
     local dungeonId = DungeonAbbreviations[dungeonAbbreviationPar];
     local weeklyAffix = WeeklyAffixAbbreviations[weeklyAffixPar]
-    --print("=====================")
-    --print("dungeonId: " .. coerce(dungeonId, "nil"))
-    --print("weeklyAffix: " .. coerce(weeklyAffix, "nil"))
-    --if not dungeonId then
-    --    print("{")
-    --    for key, value in pairs(DungeonAbbreviations) do
-    --        print("  " .. key .. " : " .. value)
-    --    end
-    --    print("}")
-    --end
     local blizzardScores = {
         Tyrannical = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 },
         Fortified = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 }
@@ -59,11 +49,9 @@ function SlashCmdList.RIO_HELPER(msg, editbox)
             end
         end
     end
-    --print(blizzardScores.Tyrannical.score)
-    --print(blizzardScores.Fortified.score)
     local newSum = RiohFunctions.computeAffixScoreSum(blizzardScores.Tyrannical.score, blizzardScores.Fortified.score)
     local bonusScore = newSum - blizzardDungeonTotalScore
-    print(RiohFunctions.formatNumber(bonusScore, 1) ..
+    RioHelper:Print(RiohFunctions.formatNumber(bonusScore, 1) ..
             " from " .. blizzardDungeonTotalScore .. " to " ..
             RiohFunctions.formatNumber(newSum, 1, true)..
             " New total score: "..RiohFunctions.formatNumber((blizzardCurrentSeasonTotalScore + bonusScore), 1, true)
