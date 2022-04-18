@@ -8,7 +8,7 @@ local coerce = RioHelper.Functions.coerce
 
 function RioHelper:OnInitialize()
     RioHelper:RegisterChatCommand("rh",
-            function(input, editbox)
+            function(input, _)
                 local dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar = RioHelper:GetArgs(input, 3)
                 -- check if all parameters exist
                 if dungeonAbbreviationPar == "help" or not dungeonAbbreviationPar or not keyLevelPar then
@@ -65,7 +65,7 @@ function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weekly
         Tyrannical = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 },
         Fortified = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 }
     }
-    local name, id, parTime = C_ChallengeMode.GetMapUIInfo(dungeonId)
+    local _, _, parTime = C_ChallengeMode.GetMapUIInfo(dungeonId)
     local blizzardDungeonAffixScoreData, blizzardDungeonTotalScore = C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(dungeonId)
     blizzardDungeonTotalScore = coerce(blizzardDungeonTotalScore, 0)
     local blizzardCurrentSeasonTotalScore = C_ChallengeMode.GetOverallDungeonScore()
