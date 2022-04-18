@@ -24,8 +24,8 @@ function RioHelper:OnInitialize()
                 local dungeonAbbreviation = dungeonAbbreviationPar
 
                 local keyLevelMatch = keyLevelPar:match("\+?%d+")
-                if not keyLevelMatch or keyLevelMatch ~= keyLevelPar or keyLevelPar+0 <= 0 then
-                    RioHelper:Print("\"keyLevel\" must be a positive number but was: "..coerce(keyLevelPar))
+                if not keyLevelMatch or keyLevelMatch ~= keyLevelPar or keyLevelPar+0 <= 1 then
+                    RioHelper:Print("\"keyLevel\" must be 2 or higher but was: "..coerce(keyLevelPar))
                     return
                 end
                 local keyLevel = tonumber(keyLevelPar)
@@ -56,6 +56,9 @@ function RioHelper:OnInitialize()
 end
 
 function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar)
+    assert(dungeonAbbreviationPar, "dungeonAbbreviationPar must not be nil")
+    assert(keyLevelPar > 1, "keyLevelPar must be >= 2")
+    assert(weeklyAffixPar, "weeklyAffixPar must not be nil")
     local dungeonId = DungeonAbbreviations[dungeonAbbreviationPar];
     local weeklyAffix = WeeklyAffixAbbreviations[weeklyAffixPar]
     local blizzardScores = {
