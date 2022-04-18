@@ -40,8 +40,13 @@ RioHelper.Data.WeeklyAffixAbbreviations = {
     Fortified = "Fortified"
 }
 for abbr, name in pairs(RioHelper.Data.WeeklyAffixAbbreviations) do
-    RioHelper.Data.WeeklyAffixAbbreviations[strsub(abbr, 1, 1)] = name
+    local capital = strsub(abbr, 1, 1)
+    RioHelper.Data.WeeklyAffixAbbreviations[capital] = name
     RioHelper.Data.WeeklyAffixAbbreviations[strsub(abbr, 1, 3)] = name
+    local lower = string.lower(capital)
+    RioHelper.Data.WeeklyAffixAbbreviations[lower] = name
+    RioHelper.Data.WeeklyAffixAbbreviations[lower..strsub(abbr, 2, 3)] = name
+    RioHelper.Data.WeeklyAffixAbbreviations[lower..strsub(abbr, 2, -1)] = name
 end
 RioHelper.Data.ValidWeeklyAffixAbbreviationsList = ""
 for k, v in pairs(RioHelper.Data.WeeklyAffixAbbreviations) do

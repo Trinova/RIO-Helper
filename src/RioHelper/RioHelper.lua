@@ -8,7 +8,7 @@ local coerce = RioHelper.Functions.coerce
 
 function RioHelper:OnInitialize()
     RioHelper:RegisterChatCommand("rh",
-            function(input, editbox)
+            function(input, _)
                 local dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar = RioHelper:GetArgs(input, 3)
                 -- check if all parameters exist
                 if dungeonAbbreviationPar == "help" or not dungeonAbbreviationPar or not keyLevelPar then
@@ -24,11 +24,15 @@ function RioHelper:OnInitialize()
                 local dungeonAbbreviation = dungeonAbbreviationPar
 
                 local keyLevelMatch = keyLevelPar:match("\+?%d+")
-                if not keyLevelMatch or keyLevelMatch ~= keyLevelPar or keyLevelPar+0 <= 0 then
-                    RioHelper:Print("\"keyLevel\" must be a positive number but was: "..coerce(keyLevelPar))
+                if not keyLevelMatch or keyLevelMatch ~= keyLevelPar or keyLevelPar+0 <= 1 then
+                    RioHelper:Print("\"keyLevel\" must be 2 or higher but was: "..coerce(keyLevelPar))
                     return
                 end
                 local keyLevel = tonumber(keyLevelPar)
+                if keyLevel > 50 then
+                    RioHelper:Print("M+"..keyLevel.."??? You wish!")
+                    return
+                end
 
                 local weeklyAffix;
                 if weeklyAffixPar == nil then
@@ -56,13 +60,16 @@ function RioHelper:OnInitialize()
 end
 
 function RioHelper:computeScoreBonus(dungeonAbbreviationPar, keyLevelPar, weeklyAffixPar)
+    assert(dungeonAbbreviationPar, "dungeonAbbreviationPar must not be nil")
+    assert(keyLevelPar > 1, "keyLevelPar must be >= 2")
+    assert(weeklyAffixPar, "weeklyAffixPar must not be nil")
     local dungeonId = DungeonAbbreviations[dungeonAbbreviationPar];
     local weeklyAffix = WeeklyAffixAbbreviations[weeklyAffixPar]
     local blizzardScores = {
         Tyrannical = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 },
         Fortified = { score = 0, baseScore = 0, timeBonus = 0, parTimePercentage = 0 }
     }
-    local name, id, parTime = C_ChallengeMode.GetMapUIInfo(dungeonId)
+    local _, _, parTime = C_ChallengeMode.GetMapUIInfo(dungeonId)
     local blizzardDungeonAffixScoreData, blizzardDungeonTotalScore = C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(dungeonId)
     blizzardDungeonTotalScore = coerce(blizzardDungeonTotalScore, 0)
     local blizzardCurrentSeasonTotalScore = C_ChallengeMode.GetOverallDungeonScore()
