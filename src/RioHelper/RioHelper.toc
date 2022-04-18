@@ -2,15 +2,13 @@
 ## Title: RioHelper
 ## Notes: Helps with Raider IO/Mythic Plus Score.|r|nUsage: |cffFFC700/rh dungeonAbbreviation keyLevel weeklyAffix
 ## Author: Panzerbüchse-Blackrock
-## Version: 1.1.0
+## Version: 1.1.1
 ## DefaultState: Enabled
 ## SavedVariables: RioHelper
 
 # Libraries
 Libs\LibStub\LibStub.lua
 Libs\AceAddon-3.0\AceAddon-3.0.xml
-Libs\AceGUI-3.0\AceGUI-3.0.xml
-Libs\AceConfig-3.0\AceConfig-3.0.xml
 Libs\AceConsole-3.0\AceConsole-3.0.xml
 embeds.xml
 
