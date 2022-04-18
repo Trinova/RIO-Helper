@@ -29,6 +29,10 @@ function RioHelper:OnInitialize()
                     return
                 end
                 local keyLevel = tonumber(keyLevelPar)
+                if keyLevel > 50 then
+                    RioHelper:Print("M+"..keyLevel.."??? You wish!")
+                    return
+                end
 
                 local weeklyAffix;
                 if weeklyAffixPar == nil then
