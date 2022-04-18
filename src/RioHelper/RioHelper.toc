@@ -2,7 +2,7 @@
 ## Title: RioHelper
 ## Notes: Helps with Raider IO/Mythic Plus Score.|r|nUsage: |cffFFC700/rh dungeonAbbreviation keyLevel weeklyAffix
 ## Author: Panzerbüchse-Blackrock
-## Version: 1.1.1
+## Version: 1.1.2
 ## DefaultState: Enabled
 ## SavedVariables: RioHelper
 
