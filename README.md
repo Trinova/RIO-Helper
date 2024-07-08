@@ -1,5 +1,7 @@
 # RIO-Helper
 
+## INACTIVE REPO
+
 ### Installation
 Copy the `/src/RioHelper` directory into `[...]\World of Warcraft\_retail_\Interface\AddOns\`
 
